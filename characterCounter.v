@@ -1,4 +1,5 @@
 module CounterExample (
+    input reset,
     input wire clk,
     output reg [2:0] xCoordinate,
     output reg [2:0] yCoordinate,
@@ -10,6 +11,11 @@ module CounterExample (
     reg [2:0] y;
 
 always @(posedge clk) begin
+    if (reset) {
+        xCoordinate <= 3'd0;
+        yCoordinate <= 3'd0;
+        address <= 5'd0;
+    }
     // Loop over y values from 0 to 20 with a step of 5
     if (y <= 20) begin
         // Loop over x values from 0 to 4
