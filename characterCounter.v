@@ -24,7 +24,8 @@ always @(posedge clk) begin
 
             // Increment x for the inner loop
             x <= x + 1;
-        end else begin
+        end
+        else begin
             // Reset x for the next iteration of the inner loop
             x <= 0;
 
