@@ -18,7 +18,7 @@ part2.v (need to fix codes)
 
 'character.v': snoopy character memory file
 
-'snoopy.mif': background mif file
+'snoopy1.mif': background mif file
 
 ### Unused files
 fill.v
