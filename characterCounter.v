@@ -1,13 +1,13 @@
 module CounterExample (
     input wire clk,
-    output reg [3:0] xCoordinate,
-    output reg [3:0] yCoordinate,
-    output reg [9:0] address,
+    output reg [2:0] xCoordinate,
+    output reg [2:0] yCoordinate,
+    output reg [4:0] address,
     output reg [7:0] data
 );
 
-    reg [3:0] x;
-    reg [3:0] y;
+    reg [2:0] x;
+    reg [2:0] y;
 
 always @(posedge clk) begin
     // Loop over y values from 0 to 20 with a step of 5
