@@ -1,37 +1,35 @@
-module CounterExample (
-    input reset,
+module characterCounter (
+	input reset,
     input wire clk,
-    output reg [2:0] xCoordinate,
-    output reg [2:0] yCoordinate,
-    output reg [4:0] address,
-    output reg [7:0] data
+    output reg [2:0] x_coordinate,
+    output reg [2:0] y_coordinate,
+	output reg [2:0] color,
+    output reg [4:0] address
 );
 
-    reg [2:0] x;
-    reg [2:0] y;
+reg [2:0] x; // 0 to 5 3 bit
+reg [2:0] y; // 0 to 20 (+5) [3:0]
 
 always @(posedge clk) begin
-    if (reset) {
-        xCoordinate <= 3'd0;
-        yCoordinate <= 3'd0;
-        address <= 5'd0;
-    }
+	 if (reset) begin
+		x_coordinate <= 3'b000;
+		y_coordinate <= 3'b000;
+		color <= 3'b000;
+		address <= 5'b00000;
+	 end
     // Loop over y values from 0 to 20 with a step of 5
     if (y <= 20) begin
         // Loop over x values from 0 to 4
         if (x <= 4) begin
-            // Calculate the address, xCoordinate, and yCoordinate
+            // Calculate the address, x_coordinate, and y_coordinate
+            address  <= x + y;
+            x_coordinate <= x;
+            y_coordinate <= y / 5;
             address  <= {1'b0, x + y};
-            xCoordinate <= x;
-            yCoordinate <= y / 5;
-
-            // Data stored in the address (you need to define your data)
-            data <= your_data_here;
 
             // Increment x for the inner loop
             x <= x + 1;
-        end
-        else begin
+        end else begin
             // Reset x for the next iteration of the inner loop
             x <= 0;
 
@@ -40,5 +38,9 @@ always @(posedge clk) begin
         end
     end
 end
+    // Extract x, y coordinates and color from the address and data
+//    assign x_coordinate = x;
+//    assign y_coordinate = y;
+//    assign color = data;
 
 endmodule
