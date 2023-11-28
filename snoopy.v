@@ -4,6 +4,8 @@ module snoopy
 		// Your inputs and outputs here
 		KEY,							// On Board Keys
 		SW,
+		HEX0,
+		HEX1
 		// The ports below are for the VGA output.  Do not change.
 		VGA_CLK,   						//	VGA Clock
 		VGA_HS,							//	VGA H_SYNC
@@ -18,6 +20,7 @@ module snoopy
 	input			CLOCK_50;				//	50 MHz
 	input	[3:0]	KEY;	
 	input [9:0] SW;
+	output [6:0] HEX0, HEX1;
 	// Declare your inputs and outputs here
 	// Do not change the following outputs
 	output			VGA_CLK;   				//	VGA Clock
@@ -41,6 +44,11 @@ module snoopy
 	wire [6:0] y = {4'b0000, ytemp};
 	wire writeEn;
 	wire Done;
+
+	// display Data
+	hex_decoder uA( .c(SW[9:8]), .display(HEX1[6:0]) );
+
+	hex_decoder uB( .c(SW[3:0]), .display(HEX0[6:0]) );
 
 	// Create an Instance of a VGA controller - there can be only one!
 	// Define the number of colours as well as the initial background
