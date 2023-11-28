@@ -1,27 +1,27 @@
 # snoopy-verilog
 
-# Top module
+## Top module
 snoopy.v
 
-# VGA Animation Module
+## VGA Animation Module
 part2.v (need to fix codes)
 
+## background mif file
+'backgroundCounter.v': counter for reading the background memory
 
-backgroundCounter.v: counter for reading the background memory
+'stage1.v': background memory file
 
-stage1.v: background memory file
+'image.mif': background mif file
 
-image.mif: background mif file
+## character mif file
+'characterCounter.v': counter for reading the character memory
 
+'character.v': snoopy character memory file
 
-characterCounter.v: counter for reading the character memory
-
-character.v: snoopy character memory file
-
-snoopy.mif: background mif file
+'snoopy.mif': background mif file
 
 
-ignore fill.v
+* ignore fill.v
 
 gameClear.colour.mif
 
