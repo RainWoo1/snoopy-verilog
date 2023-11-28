@@ -14,7 +14,7 @@ module part2(iResetn,iPlotBox,iColour,iX,iY,iClock,oX,oY,oColour,oPlot,oDone);
 
     wire [2:0] xCounter;
     wire [2:0] yCounter;
-	 wire [4:0] xyCounter;
+    wire [4:0] xyCounter;
 
     wire [2:0] current_state, next_state;
     wire yEnable;
@@ -24,8 +24,8 @@ module part2(iResetn,iPlotBox,iColour,iX,iY,iClock,oX,oY,oColour,oPlot,oDone);
 	yCounter yCount(.clock(iClock), .reset(iResetn), .enable(yEnable), .yCounter(yCounter));
 
 	// drawing box
-	xCounter xCount(.clock(iClock), .reset(iResetn), .enable(ld_erase), .xCounter(xCounter), yEnable(yEnable));
-	yCounter yCount(.clock(iClock), .reset(iResetn), .enable(yEnable), .yCounter(yCounter));
+	// xCounter xCount(.clock(iClock), .reset(iResetn), .enable(ld_erase), .xCounter(xCounter), yEnable(yEnable));
+	// yCounter yCount(.clock(iClock), .reset(iResetn), .enable(yEnable), .yCounter(yCounter));
 	
     control c1(.iClock(iClock), .iResetn(iResetn), .iPlotBox(iPlotBox), .ld_erase(ld_erase), .ld_wait(ld_wait), .ld_draw(ld_draw), .ld_done(ld_done),
 	.current_state(current_state), .next_state(next_state), .xyCounter(xyCounter),
@@ -66,10 +66,10 @@ module yCounter(
         if (!reset)
             yCounter <= 0;
         else if (enable)
-				if (yCounter != 3'b100)
-					yCounter <= yCounter + 1;
-            else
-					yCounter <= 0;
+		if (yCounter != 3'b100)
+			yCounter <= yCounter + 1;
+            	else
+			yCounter <= 0;
     end
 endmodule
 
@@ -87,30 +87,30 @@ current_state, next_state, xyCounter, xCounter, yCounter);
     output reg [2:0] current_state, next_state;
 
     localparam ERASE = 2'd0,
-					WAIT = 2'd1,
+               WAIT = 2'd1,
                DRAW = 2'd2,
-					DONE = 2'd3;
+               DONE = 2'd3;
 
     always @ (*) begin : state_table
         case(current_state)
             ERASE: begin
-                if
-                    next_state = WAIT;
-					 else
-						  next_state = ERASE;
+		if (yCounter == 3'b111)
+		    	next_state = WAIT;
+		else
+			next_state = ERASE;
             end
             WAIT: begin
-                  next_state = DRAW;
+                next_state = DRAW;
             end
             DRAW: begin
-					if (xyCounter == 5'b11001)
-						next_state = DONE;
-					else
-						next_state = DRAW;
+		if (xyCounter == 5'b11001)
+			next_state = DONE;
+		else
+			next_state = DRAW;
             end
             DONE: begin
-						next_state = ERASE;
-				end
+		next_state = ERASE;
+	    end
             default:
                 next_state = ERASE;
         endcase
@@ -128,10 +128,10 @@ current_state, next_state, xyCounter, xCounter, yCounter);
                 ERASE: begin
                     ld_erase <= 1'b0;
                 end
-					 WAIT: begin
-						  ld_wait <= 1'b1;
+		WAIT: begin
+		    ld_wait <= 1'b1;
                 end
-					 DRAW: begin
+		DRAW: begin
                     ld_draw <= 1'b1;
                 end
                 DONE: begin
@@ -179,8 +179,8 @@ iColour, oX, oY, oColour, counter, xCounter, yCounter);
         end
         else begin
             else if (iPlotBox) begin
-					 ld_erase <= 1'b0;
-					 x <= iX;
+		ld_erase <= 1'b0;
+		x <= iX;
                 y <= iY;
                 colour <= 3'b0;
             end
@@ -193,12 +193,11 @@ iColour, oX, oY, oColour, counter, xCounter, yCounter);
             oX <= 8'b0;
             oY <= 7'b0;
             oColour <= 3'b000;
-		  end
+	end
 		  
-		  if (ld_draw) begin
-				oX <= x + 
-				oColour <= colour;
-		  end
-		  
+	if (ld_draw) begin
+	    oX <= x + 
+	    oColour <= colour;
+	end  
     end
 endmodule
