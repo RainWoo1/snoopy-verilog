@@ -1,4 +1,3 @@
-
 module temp2 (
     input resetn,
     input wire clk,
