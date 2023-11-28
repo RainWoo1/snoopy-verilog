@@ -1,5 +1,5 @@
 module characterCounter (
-	input reset,
+	input resetn,
     input wire clk,
     output reg [2:0] x_coordinate,
     output reg [2:0] y_coordinate,
@@ -10,7 +10,7 @@ reg [2:0] x; // 0 to 5 3 bit
 reg [2:0] y; // 0 to 20 (+5) [3:0]
 
 always @(posedge clk) begin
-	 if (reset) begin
+	if (resetn) begin
 		x_coordinate <= 3'b000;
 		y_coordinate <= 3'b000;
 		address <= 5'b00000;
