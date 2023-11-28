@@ -60,7 +60,7 @@ module fill
 			.VGA_G(VGA_G),
 			.VGA_B(VGA_B),
 			.VGA_HS(VGA_HS),
-			.VGA_VS(VGC:/intelFPGA_lite/18.0/fill.vA_VS),
+			.VGA_VS(VGA_VS),
 			.VGA_BLANK(VGA_BLANK_N),
 			.VGA_SYNC(VGA_SYNC_N),
 			.VGA_CLK(VGA_CLK));
