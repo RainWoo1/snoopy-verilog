@@ -1,8 +1,11 @@
-module part2(iResetn,iPlotBox,iColour,iX,iY,iClock,oX,oY,oColour,oPlot,oDone);
+/*module part2(iResetn,iPlotBox,iColour,iX,iY,iClock,oX,oY,oColour,oPlot,oDone);
 
     input wire iResetn, iPlotBox;
     input wire [2:0] iColour;
     input wire 	    iClock;
+    input wire [2:0] iX;
+    input wire [2:0] iY;
+
     output wire [7:0] oX;         // VGA pixel coordinates
     output wire [6:0] oY;
 
@@ -24,8 +27,8 @@ module part2(iResetn,iPlotBox,iColour,iX,iY,iClock,oX,oY,oColour,oPlot,oDone);
 	yCounter yCount(.clock(iClock), .reset(iResetn), .enable(yEnable), .yCounter(yCounter));
 
 	// drawing box
-	// xCounter xCount(.clock(iClock), .reset(iResetn), .enable(ld_erase), .xCounter(xCounter), yEnable(yEnable));
-	// yCounter yCount(.clock(iClock), .reset(iResetn), .enable(yEnable), .yCounter(yCounter));
+//	xCounter xCount(.clock(iClock), .reset(iResetn), .enable(ld_erase), .xCounter(xCounter), yEnable(yEnable));
+//	yCounter yCount(.clock(iClock), .reset(iResetn), .enable(yEnable), .yCounter(yCounter));
 	
     control c1(.iClock(iClock), .iResetn(iResetn), .iPlotBox(iPlotBox), .ld_erase(ld_erase), .ld_wait(ld_wait), .ld_draw(ld_draw), .ld_done(ld_done),
 	.current_state(current_state), .next_state(next_state), .xyCounter(xyCounter),
@@ -66,10 +69,10 @@ module yCounter(
         if (!reset)
             yCounter <= 0;
         else if (enable)
-		if (yCounter != 3'b100)
-			yCounter <= yCounter + 1;
-            	else
-			yCounter <= 0;
+	    if (yCounter != 3'b100)
+		yCounter <= yCounter + 1;
+            else
+		yCounter <= 0;
     end
 endmodule
 
@@ -87,20 +90,20 @@ current_state, next_state, xyCounter, xCounter, yCounter);
     output reg [2:0] current_state, next_state;
 
     localparam ERASE = 2'd0,
-               WAIT = 2'd1,
+					WAIT = 2'd1,
                DRAW = 2'd2,
-               DONE = 2'd3;
+						DONE = 2'd3;
 
     always @ (*) begin : state_table
         case(current_state)
-            ERASE: begin
-		if (yCounter == 3'b111)
-		    	next_state = WAIT;
-		else
-			next_state = ERASE;
+        ERASE: begin
+            if (yCounter == 3'b100)
+					next_state = WAIT;
+				else
+					next_state = ERASE;
             end
             WAIT: begin
-                next_state = DRAW;
+                  next_state = DRAW;
             end
             DRAW: begin
 		if (xyCounter == 5'b11001)
@@ -128,16 +131,16 @@ current_state, next_state, xyCounter, xCounter, yCounter);
                 ERASE: begin
                     ld_erase <= 1'b0;
                 end
-		WAIT: begin
-		    ld_wait <= 1'b1;
-                end
-		DRAW: begin
-                    ld_draw <= 1'b1;
-                end
-                DONE: begin
-                    ld_done <= 1'b1;
-                end
-        endcase
+					WAIT: begin
+						ld_wait <= 1'b1;
+					end
+					DRAW: begin
+						ld_draw <= 1'b1;
+					end
+					DONE: begin
+						ld_done <= 1'b1;
+					end
+						  endcase
     end
 
     // current_state registers
@@ -179,8 +182,8 @@ iColour, oX, oY, oColour, counter, xCounter, yCounter);
         end
         else begin
             else if (iPlotBox) begin
-		ld_erase <= 1'b0;
-		x <= iX;
+				ld_erase <= 1'b0;
+				x <= iX;
                 y <= iY;
                 colour <= 3'b0;
             end
@@ -193,13 +196,77 @@ iColour, oX, oY, oColour, counter, xCounter, yCounter);
             oX <= 8'b0;
             oY <= 7'b0;
             oColour <= 3'b000;
-	end
-	if (ld_clear) begin
-		oColour <= 3'b111;
-	end
-	if (ld_draw) begin
-	    oPlot <= 1'b1;
-	    oColour <= colour;
-	end  
+		  end
+		  
+		  if (ld_draw) begin
+				oX <= x + 
+				oColour <= colour;
+		  end
+		  
     end
 endmodule
+
+/*
+module counter(clock, reset, enable, count);
+
+    input wire clock, reset, enable;
+    output reg [4:0] count;
+
+    always @(posedge clock) begin
+        if (!reset)
+            count <= 5'b0;
+        if (enable) begin
+            if (count == 5'b11001)
+                count <= 5'b0;
+            else
+                count <= count + 1;
+	end
+        else
+            count <= 5'b0;
+    end
+endmodule
+
+module vgaCounter(clock, reset, enable, x_dim, y_dim, x_coord, y_coord, xCounter, yCounter);
+
+    input wire clock, reset, enable;
+    input wire [7:0] x_dim;
+    input wire [6:0] y_dim;
+	 
+    output reg [2:0] xCounter;
+    output reg [2:0] yCounter;
+    reg ifStop;
+
+    always @ (posedge clock) begin
+	 if (!reset) begin
+		xCounter <= 8'b0;
+		yCounter <= 7'b0;
+		ifStop <= 1'b0;
+	 end
+	 else if (enable && !ifStop) begin
+		if (xCounter == 3'b101) begin
+			xCounter <= 8'b0;
+			if (yCounter == x_coord + 3'b101) begin
+				ifStop <= 1'b1;
+				yCounter <= 7'b0;
+			end
+			else begin
+				yCounter <= yCounter + 1;
+			end
+		end
+		else begin
+			xCounter <= xCounter + 1;
+		end
+		end
+		else begin
+			xCounter <= 8'b0;
+			yCounter <= 7'b0;
+		end
+    end
+
+endmodule
+
+    counter c0(.clock(iClock), .reset(iResetn), .enable(oPlot), .count(xyCounter));
+
+    vgaCounter v0(.reset(iResetn), .enable(ld_clear), .clock(iClock), .x_dim(X_SCREEN_PIXELS), .y_dim(Y_SCREEN_PIXELS),
+    .xCounter(xCounter), .yCounter(yCounter));
+*/
