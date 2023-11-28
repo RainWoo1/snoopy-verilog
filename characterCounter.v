@@ -1,46 +1,39 @@
 module characterCounter (
-	input reset,
+    input resetn,
     input wire clk,
-    output reg [2:0] x_coordinate,
-    output reg [2:0] y_coordinate,
-	output reg [2:0] color,
-    output reg [4:0] address
+    output reg [3:0] x_coordinate,
+    output reg [3:0] y_coordinate,
+    output reg [7:0] address,
+	 output done
 );
 
-reg [2:0] x; // 0 to 5 3 bit
-reg [2:0] y; // 0 to 20 (+5) [3:0]
+    reg [3:0] x; // 0 to 15 (4 bits)
+    reg [3:0] y; // 0 to 15 (4 bits)
+	 assign done = 1;
 
-always @(posedge clk) begin
-	 if (reset) begin
-		x_coordinate <= 3'b000;
-		y_coordinate <= 3'b000;
-		color <= 3'b000;
-		address <= 5'b00000;
-	 end
-    // Loop over y values from 0 to 20 with a step of 5
-    if (y <= 20) begin
-        // Loop over x values from 0 to 4
-        if (x <= 4) begin
-            // Calculate the address, x_coordinate, and y_coordinate
-            address  <= x + y;
-            x_coordinate <= x;
-            y_coordinate <= y / 5;
-            address  <= {1'b0, x + y};
-
-            // Increment x for the inner loop
-            x <= x + 1;
+    always @(posedge clk) begin
+        if (resetn) begin
+            x_coordinate <= 4'b0000;
+            y_coordinate <= 4'b0000;
+            address <= 8'b00000000;
+            x <= 4'b0000;
+            y <= 4'b0000;
+//				done <= 1'b0;
         end else begin
-            // Reset x for the next iteration of the inner loop
-            x <= 0;
+            // Calculate the address, x_coordinate, and y_coordinate
+            address <= x + 16*y;
+            x_coordinate <= x;
+            y_coordinate <= y;
 
-            // Increment y for the outer loop
-            y <= y + 5;
+            // Increment x and y for the inner loop
+            if (x == 15) begin
+                x <= 0;
+                y <= y + 1;
+            end else begin
+                x <= x + 1;
+            end
         end
+//		  done <= 1'b1;
     end
-end
-    // Extract x, y coordinates and color from the address and data
-//    assign x_coordinate = x;
-//    assign y_coordinate = y;
-//    assign color = data;
-
+	 
 endmodule

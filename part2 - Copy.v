@@ -1,4 +1,4 @@
-/*module part2(iResetn,iPlotBox,iColour,iX,iY,iClock,oX,oY,oColour,oPlot,oDone);
+module part2(iResetn,iPlotBox,iColour,iX,iY,iClock,oX,oY,oColour,oPlot,oDone);
 
     input wire iResetn, iPlotBox;
     input wire [2:0] iColour;
@@ -89,10 +89,10 @@ current_state, next_state, xyCounter, xCounter, yCounter);
     output reg ld_erase, ld_wait, ld_draw, ld_done;
     output reg [2:0] current_state, next_state;
 
-    localparam ERASE = 2'd0,
-					WAIT = 2'd1,
-               DRAW = 2'd2,
-						DONE = 2'd3;
+    localparam	ERASE = 2'd0,
+				WAIT = 2'd1,
+				DRAW = 2'd2,
+				DONE = 2'd3;
 
     always @ (*) begin : state_table
         case(current_state)
@@ -102,10 +102,10 @@ current_state, next_state, xyCounter, xCounter, yCounter);
 				else
 					next_state = ERASE;
             end
-            WAIT: begin
-                  next_state = DRAW;
+        WAIT: begin
+                next_state = DRAW;
             end
-            DRAW: begin
+        DRAW: begin
 		if (xyCounter == 5'b11001)
 			next_state = DONE;
 		else

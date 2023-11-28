@@ -1,5 +1,5 @@
-module backgroundCounter (
-    input reset,
+/*module backgroundCounter (
+	 input reset,
     output wire [7:0] x_coordinate,
     output wire [6:0] y_coordinate,
     output wire [2:0] color,
@@ -15,11 +15,11 @@ module backgroundCounter (
 
     // Logic for iterating through memory cells
     always @(posedge clk) begin
-	if (reset) begin
-	    x_addr <= 0;
-	    y_addr <= 0;
-	    enable <= 0;
-	end
+		  if (reset) begin
+				x_addr <= 0;
+				y_addr <= 0;
+				color <= 0;
+			end
         if (enable) begin
             if (x_addr < 159) begin
                 x_addr <= x_addr + 1;
@@ -148,4 +148,4 @@ endmodule
 //    end
 //
 //endmodule
-
+*/

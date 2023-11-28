@@ -1,0 +1,43 @@
+module readAddress();
+
+	 vgaCounter v0(.reset(iResetn), .enable(ld_clear), .clock(iClock), .x_dim(X_SCREEN_PIXELS), .y_dim(Y_SCREEN_PIXELS),
+    .xCounter(xCounter), .yCounter(yCounter));
+
+endmodule
+
+module vgaCounter(clock, reset, enable, x_dim, y_dim, xCounter, yCounter);
+    input wire clock, reset, enable;
+    input wire [7:0] x_dim;
+    input wire [6:0] y_dim;
+    output reg [7:0] xCounter;
+    output reg [6:0] yCounter;
+    reg ifStop;
+
+    always @ (posedge clock) begin
+	if (!reset) begin
+		xCounter <= 8'b0;
+		yCounter <= 7'b0;
+		ifStop <= 1'b0;
+	end
+	else if (enable && !ifStop) begin // && !ld_reached
+		if (xCounter == x_dim - 1) begin
+			xCounter <= 8'b0;
+			if (yCounter == y_dim - 1) begin
+				ifStop <= 1'b1;
+				yCounter <= 7'b0;
+			end
+			else begin
+				yCounter <= yCounter + 1;
+			end
+		end
+		else begin
+			xCounter <= xCounter + 1;
+		end
+	end
+	else begin
+		xCounter <= 8'b0;
+		yCounter <= 7'b0;
+	end
+    end
+
+endmodule

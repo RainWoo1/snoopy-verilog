@@ -1,4 +1,4 @@
-/*module part2(iResetn,iPlotBox,iColour,iX,iY,iClock,oX,oY,oColour,oPlot,oDone);
+module part2(iResetn,iPlotBox,iColour,iX,iY,iClock,oX,oY,oColour,oPlot,oDone);
 
     input wire iResetn, iPlotBox;
     input wire [2:0] iColour;
@@ -17,7 +17,7 @@
 
     wire [2:0] xCounter;
     wire [2:0] yCounter;
-    wire [4:0] xyCounter;
+	 wire [4:0] xyCounter;
 
     wire [2:0] current_state, next_state;
     wire yEnable;
@@ -90,17 +90,17 @@ current_state, next_state, xyCounter, xCounter, yCounter);
     output reg [2:0] current_state, next_state;
 
     localparam ERASE = 2'd0,
-					WAIT = 2'd1,
+		WAIT = 2'd1,
                DRAW = 2'd2,
-						DONE = 2'd3;
+		DONE = 2'd3;
 
     always @ (*) begin : state_table
         case(current_state)
-        ERASE: begin
+            ERASE: begin
             if (yCounter == 3'b100)
-					next_state = WAIT;
-				else
-					next_state = ERASE;
+		next_state = WAIT;
+	    else
+		next_state = ERASE;
             end
             WAIT: begin
                   next_state = DRAW;
@@ -131,16 +131,16 @@ current_state, next_state, xyCounter, xCounter, yCounter);
                 ERASE: begin
                     ld_erase <= 1'b0;
                 end
-					WAIT: begin
-						ld_wait <= 1'b1;
-					end
-					DRAW: begin
-						ld_draw <= 1'b1;
-					end
-					DONE: begin
-						ld_done <= 1'b1;
-					end
-						  endcase
+		WAIT: begin
+			ld_wait <= 1'b1;
+                end
+		DRAW: begin
+                    ld_draw <= 1'b1;
+                end
+                DONE: begin
+                    ld_done <= 1'b1;
+                end
+        endcase
     end
 
     // current_state registers
@@ -182,8 +182,8 @@ iColour, oX, oY, oColour, counter, xCounter, yCounter);
         end
         else begin
             else if (iPlotBox) begin
-				ld_erase <= 1'b0;
-				x <= iX;
+		ld_erase <= 1'b0;
+		x <= iX;
                 y <= iY;
                 colour <= 3'b0;
             end
@@ -206,7 +206,6 @@ iColour, oX, oY, oColour, counter, xCounter, yCounter);
     end
 endmodule
 
-/*
 module counter(clock, reset, enable, count);
 
     input wire clock, reset, enable;
@@ -269,4 +268,3 @@ endmodule
 
     vgaCounter v0(.reset(iResetn), .enable(ld_clear), .clock(iClock), .x_dim(X_SCREEN_PIXELS), .y_dim(Y_SCREEN_PIXELS),
     .xCounter(xCounter), .yCounter(yCounter));
-*/
