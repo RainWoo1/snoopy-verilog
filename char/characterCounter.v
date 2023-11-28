@@ -3,7 +3,6 @@ module characterCounter (
     input wire clk,
     output reg [2:0] x_coordinate,
     output reg [2:0] y_coordinate,
-	output reg [2:0] color,
     output reg [4:0] address
 );
 
@@ -14,7 +13,6 @@ always @(posedge clk) begin
 	 if (reset) begin
 		x_coordinate <= 3'b000;
 		y_coordinate <= 3'b000;
-		color <= 3'b000;
 		address <= 5'b00000;
         x <= 3'b000;
 		y <= 3'b000;
