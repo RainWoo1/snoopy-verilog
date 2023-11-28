@@ -1,11 +1,11 @@
 module snoopy
-	(
+#(parameter CLOCK_FREQUENCY = 50000000)(
 		CLOCK_50,						//	On Board 50 MHz
 		// Your inputs and outputs here
 		KEY,							// On Board Keys
-		SW,
 		HEX0,
-		HEX1
+		HEX1,
+		HEX2,
 		// The ports below are for the VGA output.  Do not change.
 		VGA_CLK,   						//	VGA Clock
 		VGA_HS,							//	VGA H_SYNC
@@ -18,9 +18,8 @@ module snoopy
 	);
 
 	input			CLOCK_50;				//	50 MHz
-	input	[3:0]	KEY;	
-	input [9:0] SW;
-	output [6:0] HEX0, HEX1;
+	input	[3:0]	KEY;
+	output [6:0] HEX0, HEX1, HEX2;	
 	// Declare your inputs and outputs here
 	// Do not change the following outputs
 	output			VGA_CLK;   				//	VGA Clock
@@ -37,19 +36,22 @@ module snoopy
 	
 	// Create the colour, x, y and writeEn wires that are inputs to the controller.
 
-	wire [2:0] xtemp;
-	wire [2:0] ytemp;
 	wire [2:0] colour;
-	wire [7:0] x = {5'b00000, xtemp};
-	wire [6:0] y = {4'b0000, ytemp};
-	wire writeEn;
-	wire Done;
+	wire [7:0] x = {4'b0000, x_c};
+	wire [6:0] y= {3'b000, y_c};
+	wire writeEn;  //is this ok?
 
-	// display Data
-	hex_decoder uA( .c(SW[9:8]), .display(HEX1[6:0]) );
+	//wire [7:0] x_temp = {5'b00000, x_c};
+	//wire [6:0] y_temp = {4'b0000, y_c};
 
-	hex_decoder uB( .c(SW[3:0]), .display(HEX0[6:0]) );
-
+	wire [7:0] address;
+	
+	// rate divider
+ 
+	hex_decoder uA( .c(colour[2]), .display(HEX2[6:0]) );
+	hex_decoder uB( .c(colour[1]), .display(HEX1[6:0]) );
+	hex_decoder uC( .c(colour[0]), .display(HEX0[6:0]) );
+	
 	// Create an Instance of a VGA controller - there can be only one!
 	// Define the number of colours as well as the initial background
 	// image file (.MIF) for the controller.
@@ -76,27 +78,46 @@ module snoopy
 			
 	// Put your code here. Your code should produce signals x,y,colour and writeEn
 	// for the VGA controller, in addition to any other functionality your design may require.
-//	 part2 pt2(.iResetn(KEY[0]), .iPlotBox(~KEY[1]), .iBlack(~KEY[2]), .iColour(SW[9:7]), .iLoadX(~KEY[3]), .iXY_Coord(SW[6:0]),
-//	.iClock(CLOCK_50), .oX(x), .oY(y), .oColour(colour), .oPlot(writeEn), .oDone(Done));
 	
-//	wire lv1;
-	wire [4:0] address;
-//	wire [14:0] outAddress;
-//	
-//	stage1 bg1(address, CLOCK_50, stage1Colour);
-
-//	backgroundCounter bgCounter(
-//	 .reset(resetn),
-//    .x_coordinate(x),
-//    .y_coordinate(y),
-//    .color(color),
-//    .enable(oPlot)
-//);
-
-   characterCounter charCounter( .reset(resetn), .clk(CLOCK_50), .x_coordinate(xtemp), .y_coordinate(ytemp), .color(colour), .address(address) );
-   
-	character character_instance ( .address(address), .clock(CLOCK_50), .data(3'b000), .wren(1'b0), .q(color) );
+	characterCounter u0(.resetn(resetn), .clk(enable), .x_coordinate(x_c), .y_coordinate(y_c), .address(address), .done(WriteEn));
+	snoopyCharacter u1(.address(address), .clock(enable), .data(3'b000), .wren(1'b0), .q(colour));
 	
+	RateDivider #(.CLOCK_FREQUENCY(CLOCK_FREQUENCY)) RDInst ( .ClockIn(CLOCK_50), .Reset(resetn), .Enable(enable));
+	
+endmodule
+
+
+module RateDivider
+#(parameter CLOCK_FREQUENCY = 500) (
+input ClockIn,
+input Reset,
+output reg Enable
+);
+
+    reg [26:0] down_count;
+    reg temp;
+
+    always @ (*)
+    begin
+
+			temp = CLOCK_FREQUENCY;
+
+    end
+
+    always @ (posedge ClockIn)
+    begin
+        if ((Reset == 1'b1) || (down_count == 27'd0))
+            begin
+                Enable = 1'b0; //start with enable = 1 or 0??
+                down_count <= temp;
+            end
+        else
+            begin
+                Enable = 1'b0;
+                down_count <= down_count - 1;
+            end
+    end
+    assign enable = (down_count == 27'd0)? 1'b1:1'b0;
 endmodule
 
 
@@ -134,4 +155,3 @@ module hex_decoder (c, display);
 
 
 endmodule
-
