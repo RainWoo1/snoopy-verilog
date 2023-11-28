@@ -20,9 +20,7 @@ part2.v (need to fix codes)
 
 'snoopy.mif': background mif file
 
-
-* ignore fill.v
-
+### Unused files
+fill.v
 gameClear.colour.mif
-
-gameClear.mono.mif file
+gameClear.mono.mif
