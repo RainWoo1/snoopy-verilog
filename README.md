@@ -1,7 +1,10 @@
 # snoopy-verilog
 
-# Top module = snoopy.v
-part2.v: VGA Animation Module
+# Top module
+snoopy.v
+
+# VGA Animation Module
+part2.v (need to fix codes)
 
 
 backgroundCounter.v: counter for reading the background memory
