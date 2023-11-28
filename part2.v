@@ -194,9 +194,11 @@ iColour, oX, oY, oColour, counter, xCounter, yCounter);
             oY <= 7'b0;
             oColour <= 3'b000;
 	end
-		  
+	if (ld_clear) begin
+		oColour <= 3'b111;
+	end
 	if (ld_draw) begin
-	    oX <= x + 
+	    oPlot <= 1'b1;
 	    oColour <= colour;
 	end  
     end
