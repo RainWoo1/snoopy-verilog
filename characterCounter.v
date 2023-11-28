@@ -15,7 +15,7 @@ always @(posedge clk) begin
         // Loop over x values from 0 to 4
         if (x <= 4) begin
             // Calculate the address, xCoordinate, and yCoordinate
-            address  <= x + y;
+            address  <= {1'b0, x + y};
             xCoordinate <= x;
             yCoordinate <= y / 5;
 
