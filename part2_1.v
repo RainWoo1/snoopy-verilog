@@ -1,7 +1,7 @@
-pmodule VGA (resetn, clock, iX, iY, iColour, oX, oY, oColour);
+module VGA (resetn, clock, iX, iY, iColour, oX, oY, oColour);
 
     input wire [2:0] colour;
-    input wire reset;
+    input wire resetn;
     input wire clock;
 
     input wire [7:0] iX;
@@ -17,7 +17,7 @@ pmodule VGA (resetn, clock, iX, iY, iColour, oX, oY, oColour);
     // instantiate the module
     wire go, erase, plotEn, update, reset;
 
-    wire [7:0] delayCount;
+//    wire [7:0] delayCount;
     wire [2:0] current_state, next_state;
 
     // for boxes
@@ -26,16 +26,18 @@ pmodule VGA (resetn, clock, iX, iY, iColour, oX, oY, oColour);
     wire [3:0] xyCounter;
     wire [25:0] freq;
 
-    control c1 (.clock(clock), .resetn(resetn), .colour(colour), .ld_draw(ld_draw), .ld_erase(ld_erase), .ld_done(ld_done), .delayCount(delayCount), .xCounter(xCounter), .yCounter(yCounter), .enableCharacter(enableCharacter), .current_state(current_state), .next_state(next_state));
+    control c1 (.clock(clock), .resetn(resetn), .colour(colour), .ld_draw(ld_draw), .ld_erase(ld_erase), .ld_done(ld_done), .xCounter(xCounter),
+	 .yCounter(yCounter), .current_state(current_state), .next_state(next_state), .freq(clock), .go(go), .update(update), .reset(reset), .erase(erase), .plotEn(plotEn));
 
     // delayCounter count1 (.clock(clock), .resetn(resetn), .xyCounter(xyCounter) );
     counter c0(.clock(clock), .resetn(resetn), .enable(plotEn), .count(xyCounter));
-    datapath data(.clock(clock), .resetn(resetn), .iX(iX), .iY(iY), .oX(oX), .oY(oY), .freq(freq), .iColour(iColour), .oColour(oColour), .go(go), .update(update), .reset(reset), .erase(erase), .plotEn(plotEn), .current_state(current_state), .next_state(next_state) );
+    datapath data(.clock(clock), .resetn(resetn), .iX(iX), .iY(iY), .oX(oX), .oY(oY), .freq(clock), .iColour(iColour), .oColour(oColour),
+	 .go(go), .update(update), .reset(reset), .erase(erase), .plotEn(plotEn), .current_state(current_state), .next_state(next_state) );
 
 endmodule
 
 
-module control(clock, resetn, colour, ld_draw, ld_erase, ld_done, xyCounter, current_state, next_state); // oDone
+module control(clock, resetn, colour, ld_draw, ld_erase, ld_done, xyCounter, current_state, next_state, freq, go, update, reset, erase, plotEn);
     
     input clock, resetn; // oDone
     input [2:0] colour;
@@ -43,10 +45,11 @@ module control(clock, resetn, colour, ld_draw, ld_erase, ld_done, xyCounter, cur
 
     output reg go, update, reset, erase, plotEn;
 
-    output reg enableCharacter;
-    wire [7:0] delayCount;
+    // output reg enableCharacter;
+	 input wire [3:0] xyCounter;
+	 input wire [25:0] freq;
 
-    localparam RESET = 2'd0;
+    localparam RESET = 2'd0,
                 DRAW = 2'd1,
                 WAIT = 2'd2,
                 ERASE = 2'd3,
@@ -117,7 +120,7 @@ module control(clock, resetn, colour, ld_draw, ld_erase, ld_done, xyCounter, cur
 endmodule
 
 
-module datapath( clock, resetn, iX, iY, oX, oY,freq, iColour, oColour, go, update, reset, erase, plotEn, current_state, next_state); // oDone, 
+module datapath( clock, resetn, iX, iY, oX, oY, freq, iColour, oColour, go, update, reset, erase, plotEn, current_state, next_state); // oDone, 
 
     input clock, resetn;
     input [2:0] iColour;
