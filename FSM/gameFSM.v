@@ -31,3 +31,26 @@ module gameFSM (reset, clock, collided, reached_screen_end, user_input);
 
 //what output to give from this module?
 endmodule
+
+//module which returns 1 if collision occurs
+module collision (colour, clock, resetn, collided);
+
+    input clock, resetn;
+    input [2:0] colour;
+    output reg collided;
+
+    always @(posedge clock)
+	begin
+        
+    if (resetn) begin
+        collided = 1'b0;
+    end
+
+    if (colour == 3'b010) begin
+        collided <= 1'b1;
+    end
+	
+    else 
+	    collided = 1'b0;
+    end
+endmodule
