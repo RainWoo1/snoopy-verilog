@@ -4,7 +4,8 @@ module snoopyHorizontalFSM (clock, reset, input_left, input_right, snoopy_x);
     input input_left, input_right;
     output [7:0] snoopy_x;
 
-    reg [7:0] x_speed, x_pos;
+    reg [7:0] x_pos;
+    reg x_speed;
 
     reg [1:0] state;
 
