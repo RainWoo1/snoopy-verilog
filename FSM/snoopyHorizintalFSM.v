@@ -46,9 +46,15 @@ module snoopyHorizontalFSM (clock, reset, input_left, input_right, snoopy_x);
         end
     end
 
-    //update snoopy's position
-    always@ (posedge clock) begin
-        x_pos <= x_pos + x_speed;
+    // Update Snoopy's position with bounds
+    always @ (posedge clock) begin
+        if (x_pos + x_speed > MAX_X_POS) begin
+            x_pos <= MAX_X_POS; // Prevent going beyond the maximum
+        end else if (x_pos + x_speed < 0) begin
+            x_pos <= 0; // Prevent going below 0
+        end else begin
+            x_pos <= x_pos + x_speed; // Normal position update
+        end
     end
 
     //assign output coordinate
