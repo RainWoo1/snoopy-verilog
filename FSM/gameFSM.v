@@ -30,6 +30,13 @@ module gameFSM (reset, clock, collided, reached_screen_end, user_input);
     end 
 
 //what output to give from this module?
+	// State update logic
+    always @ (posedge clock) begin
+        if (reset) 
+            current_state <= S_BEGIN;
+        else 
+            current_state <= next_state;
+    end
 endmodule
 
 //module which returns collided = 1; reached_screen_end = 1
