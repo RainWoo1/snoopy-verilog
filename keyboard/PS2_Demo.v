@@ -11,7 +11,8 @@ module PS2_Demo (
 	// Outputs
 	HEX0,
 	HEX1,
-	HEX2
+	HEX2,
+	LEDR
 );
 
 // Inputs
@@ -26,6 +27,11 @@ inout				PS2_DAT;
 output		[6:0]	HEX0;
 output		[6:0]	HEX1;
 output		[6:0]	HEX2;
+output 		[2:0] LEDR;
+
+assign LEDR[0] = i_up; 
+assign LEDR[1] = i_left; 
+assign LEDR[2] = i_right; 
 
 // Internal Wires
 wire		[7:0]	ps2_key_data;
