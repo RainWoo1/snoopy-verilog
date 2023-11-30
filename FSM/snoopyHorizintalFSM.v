@@ -2,9 +2,9 @@ module snoopyHorizontalFSM (clock, reset, input_left, input_right, snoopy_x);
 
     input clock, reset;
     input input_left, input_right;
-    output [9:0] snoopy_x;
+    output [7:0] snoopy_x;
 
-    reg [9:0] x_speed, x_pos;
+    reg [7:0] x_speed, x_pos;
 
     reg [1:0] state;
 
@@ -23,23 +23,23 @@ module snoopyHorizontalFSM (clock, reset, input_left, input_right, snoopy_x);
                 S_IDLE_X: begin
                     if (input_left) begin
                         state <= S_LEFT;
-                        x_speed = -2; //adjust
+                        x_speed <= -1; //adjust
                     end 
                     else if (input_right) begin
                         state <= S_RIGHT;
-                        x_speed = 2; //adjust
+                        x_speed <= 1; //adjust
                     end 
                 end
                 S_LEFT : begin
                     if (!input_left) begin
-                        state = S_IDLE_X;
-                        x_speed = 0;
+                        state <= S_IDLE_X;
+                        x_speed <= 0;
                     end
                 end
                 S_RIGHT: begin
                     if (!input_right) begin
-                        state = S_IDLE_X;
-                        x_speed = 0;
+                        state <= S_IDLE_X;
+                        x_speed <= 0;
                     end
                 end
             endcase
