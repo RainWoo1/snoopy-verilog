@@ -1,5 +1,5 @@
 vlib work
-vlog keyboardSignal.v
+vlog keyboardFSM.v
 
 #vsim -L altera_mf_ver part1
 
