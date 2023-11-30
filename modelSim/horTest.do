@@ -1,6 +1,6 @@
 
 vlib work
-vlog snoopyHorizontalFSM.v
+vlog snoopyHorizintalFSM.v
 
 vsim snoopyHorizontalFSM
 
@@ -18,14 +18,16 @@ run 10ns
 force {reset} 0
 run 10ns
 
-force {input_left} 1
-force {input_right} 0
-run 10ns
 
 force {input_left} 0
 force {input_right} 1
-run 10ns
+run 100ns
 
 force {input_left} 1
 force {input_right} 0
 run 10ns
+
+
+force {input_left} 1
+force {input_right} 0
+run 100ns
