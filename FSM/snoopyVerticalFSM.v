@@ -1,6 +1,6 @@
 module on_ground #(parameter GROUND_HEIGHT = 50)(snoopy_y, on_ground);
 
-    input [8:0] snoopy_y;
+    input [7:0] snoopy_y;
     output on_ground;
 
     // Check if Snoopy is at or below the ground level
@@ -11,9 +11,9 @@ module snoopyVerticalFSM #(parameter JUMP_HEIGHT = 20, GRAVITY = 2)(clock, reset
 
     input clock, reset;
     input input_jump, on_ground;
-    output [8:0] snoopy_y;
+    output [7:0] snoopy_y;
 
-    reg [8:0] y_speed, y_pos;
+    reg [7:0] y_speed, y_pos;
 
     reg [1:0] state;
 
