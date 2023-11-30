@@ -7,7 +7,7 @@ module snoopyHorizontalFSM (clock, reset, input_left, input_right, snoopy_x);
     reg [7:0] x_pos;
     //reg [1:0] x_speed;
 
-    reg state;
+    reg [1:0] state;
 
     localparam S_LEFT = 2'b01,
                 S_RIGHT = 2'b10,
