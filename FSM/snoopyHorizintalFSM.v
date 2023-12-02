@@ -19,7 +19,7 @@ module snoopyHorizontalFSM (clock, reset, input_left, input_right, snoopy_x);
     begin : next_state_and_output_logic
         if (reset) begin
             //x_speed <= 0;
-            x_pos <= 0;
+           // x_pos <= 0;
             state <= S_IDLE_X;
         end
         else begin
