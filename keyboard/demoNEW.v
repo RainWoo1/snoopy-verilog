@@ -74,16 +74,26 @@ always @ (*) begin
 
         8'h74: begin
                 input_right = 1'b1;
-                input_left = 1'b0;
             end
 
         8'h6B: begin
                 input_left = 1'b1;
-                input_right = 1'b0;
             end
 
         8'h75: begin
             input_up = 1'b1;
+        end 
+
+	8'hF074: begin
+                input_right = 1'b0;
+            end
+
+        8'hF06B: begin
+                input_left = 1'b0;
+            end
+
+        8'hF075: begin
+            input_up = 1'b0;
         end 
         
         default:  begin
