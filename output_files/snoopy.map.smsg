@@ -1,0 +1,2 @@
+Warning (10268): Verilog HDL information at VGAmodule.v(114): always construct contains both blocking and non-blocking assignments File: C:/snoopy/VGAmodule.v Line: 114
+Warning (10268): Verilog HDL information at snoopy.v(155): always construct contains both blocking and non-blocking assignments File: C:/snoopy/snoopy.v Line: 155

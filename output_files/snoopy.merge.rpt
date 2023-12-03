@@ -1,0 +1,301 @@
+Partition Merge report for snoopy
+Sat Dec 02 19:54:41 2023
+Quartus Prime Version 18.0.0 Build 614 04/24/2018 SJ Standard Edition
+
+
+---------------------
+; Table of Contents ;
+---------------------
+  1. Legal Notice
+  2. Partition Merge Summary
+  3. Partition Merge Rapid Recompile Summary
+  4. Partition Merge Messages
+  5. Partition Merge Rapid Recompile Table of Changed Logic Entities
+  6. Partition Merge Partition Pin Processing
+
+
+
+----------------
+; Legal Notice ;
+----------------
+Copyright (C) 2018  Intel Corporation. All rights reserved.
+Your use of Intel Corporation's design tools, logic functions 
+and other software and tools, and its AMPP partner logic 
+functions, and any output files from any of the foregoing 
+(including device programming or simulation files), and any 
+associated documentation or information are expressly subject 
+to the terms and conditions of the Intel Program License 
+Subscription Agreement, the Intel Quartus Prime License Agreement,
+the Intel FPGA IP License Agreement, or other applicable license
+agreement, including, without limitation, that your use is for
+the sole purpose of programming logic devices manufactured by
+Intel and sold by Intel or its authorized distributors.  Please
+refer to the applicable agreement for further details.
+
+
+
++-----------------------------------------------------------------------------------+
+; Partition Merge Summary                                                           ;
++---------------------------------+-------------------------------------------------+
+; Partition Merge Status          ; Failed - Sat Dec 02 19:54:41 2023               ;
+; Quartus Prime Version           ; 18.0.0 Build 614 04/24/2018 SJ Standard Edition ;
+; Revision Name                   ; snoopy                                          ;
+; Top-level Entity Name           ; snoopy                                          ;
+; Family                          ; Cyclone V                                       ;
+; Logic utilization (in ALMs)     ; N/A                                             ;
+; Total registers                 ; 30                                              ;
+; Total pins                      ; 44                                              ;
+; Total virtual pins              ; 0                                               ;
+; Total block memory bits         ; 57,600                                          ;
+; Total DSP Blocks                ; 0                                               ;
+; Total HSSI RX PCSs              ; 0                                               ;
+; Total HSSI PMA RX Deserializers ; 0                                               ;
+; Total HSSI TX PCSs              ; 0                                               ;
+; Total HSSI PMA TX Serializers   ; 0                                               ;
+; Total PLLs                      ; 1                                               ;
+; Total DLLs                      ; 0                                               ;
++---------------------------------+-------------------------------------------------+
+
+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Partition Merge Rapid Recompile Summary                                                                                                                                                                                   ;
++----------------+------------------------+--------------------------------+-------------------------------+----------------------------------------------------------------------------------------------------------------+
+; Partition Name ; Rapid Recompile Status ; Netlist Preservation Requested ; Netlist Preservation Achieved ; Notes                                                                                                          ;
++----------------+------------------------+--------------------------------+-------------------------------+----------------------------------------------------------------------------------------------------------------+
+; Top            ; Disengaged             ; 87.43% (160 / 183)             ; 0.00% (0 / 183)               ; Rapid Recompile disengaged: Design change is too large for Rapid Recompile, full compilation performed instead ;
++----------------+------------------------+--------------------------------+-------------------------------+----------------------------------------------------------------------------------------------------------------+
+
+
++--------------------------+
+; Partition Merge Messages ;
++--------------------------+
+Info: *******************************************************************
+Info: Running Quartus Prime Partition Merge
+    Info: Version 18.0.0 Build 614 04/24/2018 SJ Standard Edition
+    Info: Processing started: Sat Dec 02 19:54:40 2023
+Info: Command: quartus_cdb --read_settings_files=on --write_settings_files=off snoopy -c snoopy --merge=on --recompile=on
+Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
+Info (35007): Using synthesis netlist for partition "Top"
+Info (35002): Resolved and merged 1 partition(s)
+Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
+    Info (16011): Adding 3 node(s), including 0 DDIO, 1 PLL, 0 transceiver and 0 LCELL
+Error: REFCLK port on the PLL is not properly connected on instance vga_adapter:VGA|vga_pll:mypll|altpll:altpll_component|altpll_80u:auto_generated|generic_pll1.  The reference clock port on the PLL should always be connected.  If there is no reference clock, the PLL will not function correctly. File: C:/snoopy/db/altpll_80u.tdf Line: 33
+    Info: Must be connected
+Warning: RST port on the PLL is not properly connected on instance vga_adapter:VGA|vga_pll:mypll|altpll:altpll_component|altpll_80u:auto_generated|generic_pll1. The reset port on the PLL should be connected. If the PLL loses lock for any reason, you might need to manually reset the PLL in order to re-establish lock to the reference clock. File: C:/snoopy/db/altpll_80u.tdf Line: 33
+    Info: Must be connected
+Warning (15400): WYSIWYG primitive "vga_adapter:VGA|altsyncram:VideoMemory|altsyncram_d8m1:auto_generated|ram_block1a8" has a port clk0 that is stuck at GND File: C:/snoopy/db/mux_ifb.tdf Line: 24
+Warning (15400): WYSIWYG primitive "vga_adapter:VGA|altsyncram:VideoMemory|altsyncram_d8m1:auto_generated|ram_block1a5" has a port clk0 that is stuck at GND File: C:/snoopy/db/altsyncram_d8m1.tdf Line: 225
+Warning (15400): WYSIWYG primitive "vga_adapter:VGA|altsyncram:VideoMemory|altsyncram_d8m1:auto_generated|ram_block1a2" has a port clk0 that is stuck at GND File: C:/snoopy/db/altsyncram_d8m1.tdf Line: 120
+Warning (15400): WYSIWYG primitive "vga_adapter:VGA|altsyncram:VideoMemory|altsyncram_d8m1:auto_generated|ram_block1a7" has a port clk0 that is stuck at GND File: C:/snoopy/db/mux_ifb.tdf Line: 24
+Warning (15400): WYSIWYG primitive "vga_adapter:VGA|altsyncram:VideoMemory|altsyncram_d8m1:auto_generated|ram_block1a4" has a port clk0 that is stuck at GND File: C:/snoopy/db/altsyncram_d8m1.tdf Line: 190
+Warning (15400): WYSIWYG primitive "vga_adapter:VGA|altsyncram:VideoMemory|altsyncram_d8m1:auto_generated|ram_block1a1" has a port clk0 that is stuck at GND File: C:/snoopy/db/altsyncram_d8m1.tdf Line: 85
+Warning (15400): WYSIWYG primitive "vga_adapter:VGA|altsyncram:VideoMemory|altsyncram_d8m1:auto_generated|ram_block1a6" has a port clk0 that is stuck at GND File: C:/snoopy/db/mux_ifb.tdf Line: 24
+Warning (15400): WYSIWYG primitive "vga_adapter:VGA|altsyncram:VideoMemory|altsyncram_d8m1:auto_generated|ram_block1a3" has a port clk0 that is stuck at GND File: C:/snoopy/db/altsyncram_d8m1.tdf Line: 155
+Warning (15400): WYSIWYG primitive "vga_adapter:VGA|altsyncram:VideoMemory|altsyncram_d8m1:auto_generated|ram_block1a0" has a port clk0 that is stuck at GND File: C:/snoopy/db/altsyncram_d8m1.tdf Line: 50
+Error: REFCLK port on the PLL is not properly connected on instance vga_adapter:VGA|vga_pll:mypll|altpll:altpll_component|altpll_80u:auto_generated|generic_pll1.  The reference clock port on the PLL should always be connected.  If there is no reference clock, the PLL will not function correctly. File: C:/snoopy/db/altpll_80u.tdf Line: 33
+    Info: Must be connected
+Warning: RST port on the PLL is not properly connected on instance vga_adapter:VGA|vga_pll:mypll|altpll:altpll_component|altpll_80u:auto_generated|generic_pll1. The reset port on the PLL should be connected. If the PLL loses lock for any reason, you might need to manually reset the PLL in order to re-establish lock to the reference clock. File: C:/snoopy/db/altpll_80u.tdf Line: 33
+    Info: Must be connected
+Error: Quartus Prime Partition Merge was unsuccessful. 2 errors, 12 warnings
+    Error: Peak virtual memory: 4791 megabytes
+    Error: Processing ended: Sat Dec 02 19:54:41 2023
+    Error: Elapsed time: 00:00:01
+    Error: Total CPU time (on all processors): 00:00:01
+
+
++----------------------------------------------------------------------------------------------------------------------------------+
+; Partition Merge Rapid Recompile Table of Changed Logic Entities                                                                  ;
++--------------------------------------------------------------------------------------------------------+-------------------------+
+; Changed Logic Entities                                                                                 ; Number of Changed Nodes ;
++--------------------------------------------------------------------------------------------------------+-------------------------+
+; |snoopy|vga_adapter:VGA|altsyncram:VideoMemory|altsyncram_d8m1:auto_generated                          ; 18                      ;
+; |snoopy|vga_adapter:VGA|vga_controller:controller|vga_address_translator:controller_translator         ; 10                      ;
+; |snoopy|vga_adapter:VGA|altsyncram:VideoMemory|altsyncram_d8m1:auto_generated|decode_01a:rden_decode_b ; 6                       ;
+; |snoopy|vga_adapter:VGA|vga_pll:mypll|altpll:altpll_component|altpll_80u:auto_generated                ; 2                       ;
++--------------------------------------------------------------------------------------------------------+-------------------------+
+
+
++--------------------------------------------------------------------------------+
+; Partition Merge Partition Pin Processing                                       ;
++---------------------------+-----------+---------------+----------+-------------+
+; Name                      ; Partition ; Type          ; Location ; Status      ;
++---------------------------+-----------+---------------+----------+-------------+
+; CLOCK_50                  ; Top       ; Input Port    ; n/a      ;             ;
+;     -- CLOCK_50           ; Top       ; Input Pad     ; Unplaced ; Synthesized ;
+;     -- CLOCK_50~input     ; Top       ; Input Buffer  ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; KEY[0]                    ; Top       ; Input Port    ; n/a      ;             ;
+;     -- KEY[0]             ; Top       ; Input Pad     ; Unplaced ; Synthesized ;
+;     -- KEY[0]~input       ; Top       ; Input Buffer  ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; KEY[1]                    ; Top       ; Input Port    ; n/a      ;             ;
+;     -- KEY[1]             ; Top       ; Input Pad     ; Unplaced ; Synthesized ;
+;     -- KEY[1]~input       ; Top       ; Input Buffer  ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; KEY[2]                    ; Top       ; Input Port    ; n/a      ;             ;
+;     -- KEY[2]             ; Top       ; Input Pad     ; Unplaced ; Synthesized ;
+;     -- KEY[2]~input       ; Top       ; Input Buffer  ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; KEY[3]                    ; Top       ; Input Port    ; n/a      ;             ;
+;     -- KEY[3]             ; Top       ; Input Pad     ; Unplaced ; Synthesized ;
+;     -- KEY[3]~input       ; Top       ; Input Buffer  ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; SW[0]                     ; Top       ; Input Port    ; n/a      ;             ;
+;     -- SW[0]              ; Top       ; Input Pad     ; Unplaced ; Synthesized ;
+;     -- SW[0]~input        ; Top       ; Input Buffer  ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; SW[1]                     ; Top       ; Input Port    ; n/a      ;             ;
+;     -- SW[1]              ; Top       ; Input Pad     ; Unplaced ; Synthesized ;
+;     -- SW[1]~input        ; Top       ; Input Buffer  ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; SW[2]                     ; Top       ; Input Port    ; n/a      ;             ;
+;     -- SW[2]              ; Top       ; Input Pad     ; Unplaced ; Synthesized ;
+;     -- SW[2]~input        ; Top       ; Input Buffer  ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; SW[3]                     ; Top       ; Input Port    ; n/a      ;             ;
+;     -- SW[3]              ; Top       ; Input Pad     ; Unplaced ; Synthesized ;
+;     -- SW[3]~input        ; Top       ; Input Buffer  ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; SW[4]                     ; Top       ; Input Port    ; n/a      ;             ;
+;     -- SW[4]              ; Top       ; Input Pad     ; Unplaced ; Synthesized ;
+;     -- SW[4]~input        ; Top       ; Input Buffer  ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; SW[5]                     ; Top       ; Input Port    ; n/a      ;             ;
+;     -- SW[5]              ; Top       ; Input Pad     ; Unplaced ; Synthesized ;
+;     -- SW[5]~input        ; Top       ; Input Buffer  ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; SW[6]                     ; Top       ; Input Port    ; n/a      ;             ;
+;     -- SW[6]              ; Top       ; Input Pad     ; Unplaced ; Synthesized ;
+;     -- SW[6]~input        ; Top       ; Input Buffer  ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; SW[7]                     ; Top       ; Input Port    ; n/a      ;             ;
+;     -- SW[7]              ; Top       ; Input Pad     ; Unplaced ; Synthesized ;
+;     -- SW[7]~input        ; Top       ; Input Buffer  ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; SW[8]                     ; Top       ; Input Port    ; n/a      ;             ;
+;     -- SW[8]              ; Top       ; Input Pad     ; Unplaced ; Synthesized ;
+;     -- SW[8]~input        ; Top       ; Input Buffer  ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; SW[9]                     ; Top       ; Input Port    ; n/a      ;             ;
+;     -- SW[9]              ; Top       ; Input Pad     ; Unplaced ; Synthesized ;
+;     -- SW[9]~input        ; Top       ; Input Buffer  ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_BLANK_N               ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_BLANK_N        ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_BLANK_N~output ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_B[0]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_B[0]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_B[0]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_B[1]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_B[1]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_B[1]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_B[2]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_B[2]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_B[2]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_B[3]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_B[3]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_B[3]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_B[4]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_B[4]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_B[4]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_B[5]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_B[5]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_B[5]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_B[6]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_B[6]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_B[6]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_B[7]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_B[7]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_B[7]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_CLK                   ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_CLK            ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_CLK~output     ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_G[0]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_G[0]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_G[0]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_G[1]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_G[1]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_G[1]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_G[2]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_G[2]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_G[2]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_G[3]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_G[3]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_G[3]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_G[4]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_G[4]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_G[4]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_G[5]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_G[5]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_G[5]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_G[6]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_G[6]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_G[6]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_G[7]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_G[7]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_G[7]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_HS                    ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_HS             ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_HS~output      ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_R[0]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_R[0]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_R[0]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_R[1]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_R[1]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_R[1]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_R[2]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_R[2]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_R[2]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_R[3]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_R[3]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_R[3]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_R[4]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_R[4]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_R[4]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_R[5]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_R[5]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_R[5]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_R[6]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_R[6]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_R[6]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_R[7]                  ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_R[7]           ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_R[7]~output    ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_SYNC_N                ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_SYNC_N         ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_SYNC_N~output  ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
+; VGA_VS                    ; Top       ; Output Port   ; n/a      ;             ;
+;     -- VGA_VS             ; Top       ; Output Pad    ; Unplaced ; Synthesized ;
+;     -- VGA_VS~output      ; Top       ; Output Buffer ; Unplaced ; Synthesized ;
+;                           ;           ;               ;          ;             ;
++---------------------------+-----------+---------------+----------+-------------+
+
+

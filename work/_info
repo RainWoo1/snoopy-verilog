@@ -1,0 +1,133 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d//VSRV1/A.Homes$$/woojimin/Desktop/ece241/snoopy
+vcharacterCounter
+!s110 1701197276
+!i10b 1
+!s100 8SCh>ef=6F7>M7M4QaKNb0
+I>^JdN7Vi=m=KV80NmIRIA1
+Z1 VDg1SIo80bB@j0V0VzS_@n1
+R0
+w1701197120
+8characterCounter.v
+FcharacterCounter.v
+L0 1
+Z2 OV;L;10.5b;63
+r1
+!s85 0
+31
+!s108 1701197273.000000
+!s107 characterCounter.v|
+!s90 -reportprogress|300|characterCounter.v|
+!i113 1
+Z3 tCvgOpt 0
+ncharacter@counter
+vcontrol
+Z4 !s110 1701398303
+!i10b 1
+!s100 YP7`MJJYgCGBbFVN2d1ML1
+I6;VoP4GR]JaN3oEmKO?Mo3
+R1
+Z5 dW:/snoopy
+Z6 w1701397461
+Z7 8VGAmodule.v
+Z8 FVGAmodule.v
+L0 54
+R2
+r1
+!s85 0
+31
+Z9 !s108 1701398303.000000
+Z10 !s107 VGAmodule.v|
+Z11 !s90 -reportprogress|300|VGAmodule.v|
+!i113 1
+R3
+vcounter
+R4
+!i10b 1
+!s100 I]a9@ZffFJfY;BnPV>d501
+IR1O<2S5XA:j]UN6WhcjFU3
+R1
+R5
+R6
+R7
+R8
+L0 34
+R2
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 1
+R3
+vdatapath
+R4
+!i10b 1
+!s100 h?`mBX<O[=;C:A8=YC:7@1
+I_gYNdFMIHIY=RgdKcJAKF1
+R1
+R5
+R6
+R7
+R8
+L0 168
+R2
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 1
+R3
+vVGA
+!s110 1701227009
+!i10b 1
+!s100 ;6gh^ZHNn[iKYKVd^n[Kd0
+ICNJ4alL=0AIL2839QZg^Z0
+R1
+dC:/snoopy
+w1701226921
+8VGA.v
+FVGA.v
+L0 1
+R2
+r1
+!s85 0
+31
+!s108 1701227009.000000
+!s107 VGA.v|
+!s90 -reportprogress|300|VGA.v|
+!i113 1
+R3
+n@v@g@a
+vVGAmodule
+R4
+!i10b 1
+!s100 6P=j^8SZSL>N1;?BX11<62
+I4T`UmcP<j]HL;LVfa2gC82
+R1
+R5
+R6
+R7
+R8
+L0 1
+R2
+r1
+!s85 0
+31
+R9
+R10
+R11
+!i113 1
+R3
+n@v@g@amodule
