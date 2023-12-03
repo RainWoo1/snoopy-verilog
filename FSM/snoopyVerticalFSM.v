@@ -1,4 +1,4 @@
-module snoopyVerticalFSM #(parameter JUMP_VELOCITY = 5, MAX_JUMPS = 2, MAX_HEIGHT = 120, GROUND_HEIGHT = 100)
+module snoopyVerticalFSM #(parameter JUMP_VELOCITY = 1, MAX_JUMPS = 2, MAX_HEIGHT = 120, GROUND_HEIGHT = 100)
     (clock, reset, input_jump, snoopy_y);
 
     input clock, reset;
