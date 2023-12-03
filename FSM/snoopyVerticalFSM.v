@@ -22,7 +22,7 @@ module snoopyVerticalFSM #(parameter JUMP_HEIGHT = 20, GRAVITY = 5, MAX_JUMPS = 
                S_IDLE_Y = 2'b00;
 
     always @(posedge clock) begin
-        if (reset) begin
+        if (!reset) begin
             state <= S_IDLE_Y;
             jump_counter <= 0;
             y_pos <= 100; // Initial position on the ground
