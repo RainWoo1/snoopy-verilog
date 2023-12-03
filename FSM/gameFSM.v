@@ -40,35 +40,28 @@ module gameFSM (reset, clock, collided, reached_screen_end, user_input);
 endmodule
 
 //module which returns collided = 1; reached_screen_end = 1
-module collision_end (y_coord, colour, clock, resetn, collided, reached_screen_end);
+module collision_end (x_coord, y_coord, colour, clock, resetn, collided, reached_screen_end);
 
-    input [6:0] y_coord;
+    input [6:0] y_coord; // Added x_coord as input
+	input [7:0] x_coord;
     input clock, resetn;
     input [2:0] colour;
     output reg collided, reached_screen_end;
 
-    always @(posedge clock)
-	begin
-        
-    if (resetn) 
-        collided <= 1'b0;
-
-    if (colour == 3'b010) 
-        collided <= 1'b1;
-
-    else 
-	    collided = 1'b0;
+    always @(posedge clock) begin
+        if (!resetn) begin
+            collided <= 1'b0;
+        end else if (colour == 3'b010) begin
+            collided <= 1'b1;
+        end
+        // No else clause
     end
 
-    always @(posedge clock)
-    begin
-        if (resetn) 
+    always @(posedge clock) begin
+        if (!resetn) begin
             reached_screen_end <= 1'b0;
-
-        if (y_coord == 7'd119)
-            reached_screen_end = 1'b1;
-        
-        else
-            reached_screen_end = 1'b0;
+        end else if (x_coord == 7'd159) begin // Check if x_coord is 159
+            reached_screen_end <= 1'b1;
+        end 
     end
 endmodule
