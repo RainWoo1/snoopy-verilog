@@ -3,6 +3,9 @@ module snoopy
 		CLOCK_50,						//	On Board 50 MHz
 		KEY,							// On Board Keys
 		SW,
+		HEX0,
+		HEX1,
+		LEDR,
 		// The ports below are for the VGA output.  Do not change.
 		VGA_CLK,   						//	VGA Clock
 		VGA_HS,							//	VGA H_SYNC
@@ -11,7 +14,9 @@ module snoopy
 		VGA_SYNC_N,						//	VGA SYNC
 		VGA_R,   						//	VGA Red[9:0]
 		VGA_G,	 						//	VGA Green[9:0]
-		VGA_B   						//	VGA Blue[9:0]
+		VGA_B,   						//	VGA Blue[9:0]
+		PS2_CLK,
+		PS2_DAT		
 	);
 	// 		HEX0,
 //		HEX1,
@@ -20,7 +25,12 @@ module snoopy
 	input			CLOCK_50;				//	50 MHz
 	input	[3:0]	KEY;
 	input [9:0] SW;
+	output [9:0] LEDR;
+	output [6:0] HEX0;
+	output [6:0] HEX1;
 //	output [6:0] HEX0, HEX1, HEX2;	
+inout				PS2_CLK;
+inout				PS2_DAT;
 
 	output			VGA_CLK;   				//	VGA Clock
 	output			VGA_HS;					//	VGA H_SYNC
@@ -48,7 +58,11 @@ module snoopy
 	wire [2:0] colTemp;
 
 	wire [7:0] address;
-	wire isInput = ~KEY[3] ||~KEY[2] || ~KEY[1];
+	wire i_r = ~KEY[1] || input_right;
+	wire i_l = ~KEY[2] || input_left;
+	wire i_u = ~KEY[3] || input_up;
+	wire input_right, input_left, input_up;
+	wire isInput = i_r || i_l || i_u;
 	wire is_collided, is_end, q_out;
 	
 	// Create an Instance of a VGA controller - there can be only one!
@@ -89,9 +103,9 @@ module snoopy
 
 		RateDivider #(.CLOCK_FREQUENCY(CLOCK_FREQUENCY)) RDInst ( .ClockIn(CLOCK_50), .Reset(resetn), .Enable(enable) );
 
-		snoopyHorizontalFSM fsm1( .clock(enable), .reset(resetn), .input_left(~KEY[2]), .input_right(~KEY[1]), .snoopy_x(xTemp) );
+		snoopyHorizontalFSM fsm1( .clock(enable), .reset(resetn), .input_left(i_l), .input_right(i_r), .snoopy_x(xTemp) );
 		
-		snoopyVerticalFSM fsm3 ( .clock(enable), .reset(resetn), .input_jump(~KEY[3]), .snoopy_y(yTemp) );
+		snoopyVerticalFSM fsm3 ( .clock(enable), .reset(resetn), .input_jump(i_u), .snoopy_y(yTemp) );
 		
 		VGAmodule vgaplay( .iResetn(resetn),.iColour(colTemp),.iX(xTemp),.iY(yTemp),.iLoadX(SW[0]),.iClock(CLOCK_50),.oX(x),.oY(y),.oColour(colour),.oPlot(writeEn),.oDone(Done) );
 		
@@ -100,8 +114,9 @@ module snoopy
 		collision_end colInst(.x_coord(xTemp), .y_coord(yTemp), .colour(q_out), .clock(enable), .resetn(resetn), .collided(is_collided), .reached_screen_end(is_end));
 		
 		stage mem(.address(xTemp + (120*yTemp)), .clock(enable), .data(3'b000), .wren(1'b0), .q(q_out));
+		
+		PS2_Demo keyboard(CLOCK_50, KEY, PS2_CLK, PS2_DAT, HEX0, HEX1, LEDR, input_right, input_left, input_up);
 // 	snoopyCharacter2 v1 (.address(address), .clock(CLOCK_50), .q(colour) );
-
 endmodule
 
 
