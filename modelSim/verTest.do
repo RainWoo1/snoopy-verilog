@@ -11,11 +11,11 @@ add wave {/*}
 
 
 force {clock} 0 0ns, 1 {5ns} -r 10ns
-force {reset} 1
+force {reset} 0
 run 10ns
 
 
-force {reset} 0
+force {reset} 1
 run 10ns
 
 force {input_jump} 1
