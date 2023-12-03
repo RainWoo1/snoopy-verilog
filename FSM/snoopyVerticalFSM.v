@@ -1,16 +1,7 @@
-module on_ground #(parameter GROUND_HEIGHT = 104)(snoopy_y, on_ground);
-
-    input [7:0] snoopy_y;
-    output on_ground;
-
-    // Check if Snoopy is at or below the ground level
-    assign on_ground = (snoopy_y <= GROUND_HEIGHT);
-endmodule
-
-module snoopyVerticalFSM #(parameter JUMP_HEIGHT = 20, GRAVITY = 5, MAX_JUMPS = 2, MAX_HEIGHT = 120)(clock, reset, on_ground, input_jump, snoopy_y); //adjust jump height
+module snoopyVerticalFSM #(parameter JUMP_HEIGHT = 20, GRAVITY = 2, MAX_JUMPS = 2, MAX_HEIGHT = 120, GROUND_HEIGHT = 100)(clock, reset, input_jump, snoopy_y);
 
     input clock, reset;
-    input input_jump, on_ground;
+    input input_jump;
     output [6:0] snoopy_y;
 
     reg [6:0] y_pos;
@@ -25,29 +16,36 @@ module snoopyVerticalFSM #(parameter JUMP_HEIGHT = 20, GRAVITY = 5, MAX_JUMPS = 
         if (!reset) begin
             state <= S_IDLE_Y;
             jump_counter <= 0;
-            y_pos <= 100; // Initial position on the ground
+            y_pos <= GROUND_HEIGHT; // Initial position on the ground
         end else begin
-            if (on_ground) jump_counter <= 0;
+            // Check if Snoopy is on the ground
+            if (y_pos >= GROUND_HEIGHT) begin
+                jump_counter <= 0; // Reset jump counter on the ground
+            end
+
             case (state)
                 S_IDLE_Y: begin
-                    if (input_jump && (on_ground || jump_counter < MAX_JUMPS)) begin
+                    if (input_jump && (y_pos >= GROUND_HEIGHT || jump_counter < MAX_JUMPS)) begin
                         state <= S_JUMP;
                         y_pos <= y_pos - JUMP_HEIGHT; // Move up
                         jump_counter <= jump_counter + 1;
                     end
                 end
                 S_JUMP: begin
-                    if (!input_jump || y_pos <= 0) begin
+                    if (y_pos <= 0) begin
                         state <= S_FALL;
-                    end else if (jump_counter < MAX_JUMPS) begin
+                    end else if (jump_counter < MAX_JUMPS && input_jump) begin
                         state <= S_JUMP;
                         y_pos <= y_pos - JUMP_HEIGHT; // Continue moving up
                         jump_counter <= jump_counter + 1;
+                    end else begin
+                        state <= S_FALL;
                     end
                 end
                 S_FALL: begin
-                    if (on_ground) begin
+                    if (y_pos >= GROUND_HEIGHT) begin
                         state <= S_IDLE_Y;
+                        y_pos <= GROUND_HEIGHT; // Ensure Snoopy is on the ground
                     end else if (input_jump && jump_counter < MAX_JUMPS) begin
                         state <= S_JUMP;
                         y_pos <= y_pos - JUMP_HEIGHT; // Move up from mid-air
