@@ -13,7 +13,7 @@ module PS2_Demo (
 	HEX1,
     LEDR[9:0],
 	 o_r,
-	 O_l,
+	 o_l,
 	 o_u
 );
 
@@ -45,7 +45,7 @@ output		[6:0]	HEX1;
 //output		[6:0]	HEX7;
 output      [9:0]   LEDR;
 output o_r;
-output O_l;
+output o_l;
 output o_u;
 
 assign o_r = input_right;
@@ -70,8 +70,8 @@ begin
 		last_data_received <= 8'h00;
 	else if (ps2_key_pressed == 1'b1)
 		last_data_received <= ps2_key_data;
-	else 
-		last_data_received <= ps2_key_data;
+	// else 
+	// 	last_data_received <= ps2_key_data;
 end
 
 always @ (*) begin
@@ -93,23 +93,29 @@ always @ (*) begin
             input_left = 1'b0;
         end 
 
-		8'hF074: begin
-                input_right = 1'b0;
-					 input_left = 1'b0;
-					 input_up = 1'b0;
-            end
+	8'hF0: begin // Key release code
+            input_right = 1'b0;
+            input_left = 1'b0;
+            input_up = 1'b0;
+        end
 
-        8'hF06B: begin
-                input_right = 1'b0;
-					 input_left = 1'b0;
-					 input_up = 1'b0;
-            end
+		// 8'hF074: begin
+  //               input_right = 1'b0;
+		// 			 input_left = 1'b0;
+		// 			 input_up = 1'b0;
+  //           end
 
-        8'hF075: begin
-					input_right = 1'b0;
-					input_left = 1'b0;
-					input_up = 1'b0;
-        end 
+  //       8'hF06B: begin
+  //               input_right = 1'b0;
+		// 			 input_left = 1'b0;
+		// 			 input_up = 1'b0;
+  //           end
+
+  //       8'hF075: begin
+		// 			input_right = 1'b0;
+		// 			input_left = 1'b0;
+		// 			input_up = 1'b0;
+  //       end 
      
         default:  begin
             input_right = 1'b0;
