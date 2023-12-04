@@ -5,15 +5,15 @@ module collision_end (x_coord, y_coord, colour, clock, resetn, collided, reached
     input clock, resetn;
     input [2:0] colour;
     output reg collided, reached_screen_end;
-//
-//    always @(posedge clock) begin
-//        if (!resetn) begin
-//            collided <= 1'b0;
-//        end else if (colour == 3'b010) begin
-//            collided <= 1'b1;
-//        end
-//        // No else clause
-//    end
+
+   always @(posedge clock) begin
+       if (!resetn) begin
+           collided <= 1'b0;
+       end else if (colour == 3'b010) begin
+           collided <= 1'b1;
+       end
+       // No else clause
+   end
 
     always @(posedge clock) begin
         if (!resetn) begin
