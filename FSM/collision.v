@@ -18,7 +18,7 @@ module collision_end (x_coord, y_coord, colour, clock, resetn, collided, reached
     always @(posedge clock) begin
         if (!resetn) begin
             reached_screen_end <= 1'b0;
-        end else if (x_coord == 7'd156) begin // Check if x_coord is 159
+        end else if (x_coord >= 8'd154) begin // Check if x_coord is 159
             reached_screen_end <= 1'b1;
         end 
     end
