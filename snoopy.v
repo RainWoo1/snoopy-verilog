@@ -58,7 +58,8 @@ inout				PS2_DAT;
 	wire [2:0] colTemp;
 
 	wire [7:0] address;
-	wire [14:0] addTemp = xTemp * yTemp;
+	wire [14:0] addTemp;
+	addTemp = xTemp * yTemp;
 	wire i_r = ~KEY[1] || input_right;
 	wire i_l = ~KEY[2] || input_left;
 	wire i_u = ~KEY[3] || input_up;
