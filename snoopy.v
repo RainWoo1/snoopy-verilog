@@ -58,6 +58,7 @@ inout				PS2_DAT;
 	wire [2:0] colTemp;
 
 	wire [7:0] address;
+	wire [14:0] addTemp = xTemp * yTemp;
 	wire i_r = ~KEY[1] || input_right;
 	wire i_l = ~KEY[2] || input_left;
 	wire i_u = ~KEY[3] || input_up;
@@ -113,7 +114,7 @@ inout				PS2_DAT;
 		
 		collision_end colInst(.x_coord(xTemp), .y_coord(yTemp), .colour(q_out), .clock(enable), .resetn(resetn), .collided(is_collided), .reached_screen_end(is_end));
 		
-		stage mem(.address(xTemp + (120*yTemp)), .clock(enable), .data(3'b000), .wren(1'b0), .q(q_out));
+		stage mem(.address(addTemp), .clock(enable), .data(3'b000), .wren(1'b0), .q(q_out));
 		
 		PS2_Demo keyboard(CLOCK_50, KEY, PS2_CLK, PS2_DAT, HEX0, HEX1, LEDR, input_right, input_left, input_up);
 // 	snoopyCharacter2 v1 (.address(address), .clock(CLOCK_50), .q(colour) );
