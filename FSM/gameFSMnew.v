@@ -28,10 +28,10 @@ module gameFSM (reset, clock, collided, reached_screen_end, user_input, col);
                         next_state = S_CONTINUE;
 
                 S_LOST:
-                    next_state = S_BEGIN;
+                    next_state = S_LOST;
 
                 S_WON:
-                    next_state = S_BEGIN;
+                    next_state = S_WON;
 
                 default:
                     next_state = S_BEGIN;
