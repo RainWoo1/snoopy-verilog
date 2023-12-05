@@ -3,6 +3,9 @@ module snoopy
 		CLOCK_50,						//	On Board 50 MHz
 		KEY,							// On Board Keys
 		SW,
+		HEX0,
+		HEX1,
+		LEDR,
 		// The ports below are for the VGA output.  Do not change.
 		VGA_CLK,   						//	VGA Clock
 		VGA_HS,							//	VGA H_SYNC
@@ -11,16 +14,36 @@ module snoopy
 		VGA_SYNC_N,						//	VGA SYNC
 		VGA_R,   						//	VGA Red[9:0]
 		VGA_G,	 						//	VGA Green[9:0]
-		VGA_B   						//	VGA Blue[9:0]
+		VGA_B,   						//	VGA Blue[9:0]
+		PS2_CLK,
+		PS2_DAT,
+
+		AUD_ADCDAT,
+
+		// Bidirectionals
+		AUD_BCLK,
+		AUD_ADCLRCK,
+		AUD_DACLRCK,
+
+		FPGA_I2C_SDAT,
+
+		// Outputs
+		AUD_XCK,
+		AUD_DACDAT,
+
+		FPGA_I2C_SCLK	
 	);
-	// 		HEX0,
-//		HEX1,
-//		HEX2,
+
 
 	input			CLOCK_50;				//	50 MHz
 	input	[3:0]	KEY;
 	input [9:0] SW;
-//	output [6:0] HEX0, HEX1, HEX2;	
+	output [9:0] LEDR;
+	output [6:0] HEX0;
+	output [6:0] HEX1;
+
+inout				PS2_CLK;
+inout				PS2_DAT;
 
 	output			VGA_CLK;   				//	VGA Clock
 	output			VGA_HS;					//	VGA H_SYNC
@@ -45,8 +68,37 @@ module snoopy
 	wire writeEn;
 	wire Done;
 	wire ifGround;
+	wire [2:0] colTemp;
 
 	wire [7:0] address;
+	//wire [14:0] addTemp = (xTemp + 8'd4) * (yTemp + 7'd2);
+	wire [14:0] addTemp;
+	//addTemp = xTemp * yTemp;
+//	reg i_r;
+//	i_r = ~KEY[1] || input_right;
+//	reg i_l;
+//	i_l = ~KEY[2] || input_left;
+//	reg i_u;
+//	i_u = ~KEY[3] || input_up;
+	wire input_right, input_left, input_up;
+	wire isInput = i_r || i_l || i_u;
+	wire is_collided, is_end, q_out;
+	
+reg i_r, i_l, i_u;
+
+always @(*) begin
+    // Update i_r, i_l, i_u based on KEY inputs or input directions
+    i_r = ~KEY[1] || input_right;
+    i_l = ~KEY[2] || input_left;
+    i_u = ~KEY[3] || input_up;
+
+    // Existing logic for handling game end or collision
+    if (is_collided || is_end) begin
+        i_r = 1'b0;
+        i_l = 1'b0;
+        i_u = 1'b0;
+    end
+end
 	
 	// Create an Instance of a VGA controller - there can be only one!
 	// Define the number of colours as well as the initial background
@@ -75,6 +127,108 @@ module snoopy
 	// Put your code here. Your code should produce signals x,y,colour and writeEn
 	// for the VGA controller, in addition to any other functionality your design may require.
 	
+	input				AUD_ADCDAT;
+
+	// Bidirectionals
+	inout				AUD_BCLK;
+	inout				AUD_ADCLRCK;
+	inout				AUD_DACLRCK;
+
+	inout				FPGA_I2C_SDAT;
+
+	// Outputs
+	output				AUD_XCK;
+	output				AUD_DACDAT;
+
+	output				FPGA_I2C_SCLK;
+
+	// Internal Wires and Registers Declarations
+
+	// Internal Wires
+	wire				audio_in_available;
+	wire		[31:0]	left_channel_audio_in;
+	wire		[31:0]	right_channel_audio_in;
+	wire				read_audio_in;
+
+	wire				audio_out_allowed;
+	wire		[31:0]	left_channel_audio_out;
+	wire		[31:0]	right_channel_audio_out;
+	wire				write_audio_out;
+
+	// Internal Registers
+
+	reg [18:0] delay_cnt;
+	wire [18:0] delay;
+
+	reg snd;
+
+	// State Machine Registers
+
+	// Finite State Machine(s)
+	// Sequential Logic
+
+	always @(posedge CLOCK_50)
+		if(delay_cnt == delay) begin
+			delay_cnt <= 0;
+			snd <= !snd;
+		end else delay_cnt <= delay_cnt + 1;
+
+	// Combinational Logic
+
+	assign delay = 19'd113636; // SW[3:0] 15'd3000 KEY[1], KEY[2], 
+
+	wire [31:0] sound = (i_u == 0) ? 0 : snd ? 32'd10000000 : -32'd10000000; 
+
+
+	assign read_audio_in			= audio_in_available & audio_out_allowed;
+
+	assign left_channel_audio_out	= left_channel_audio_in+sound;
+	assign right_channel_audio_out	= right_channel_audio_in+sound;
+	assign write_audio_out			= audio_in_available & audio_out_allowed;
+
+	// Internal Modules
+
+	Audio_Controller Audio_Controller (
+		// Inputs
+		.CLOCK_50						(CLOCK_50),
+		.reset						(~KEY[0]),
+
+		.clear_audio_in_memory		(),
+		.read_audio_in				(read_audio_in),
+		
+		.clear_audio_out_memory		(),
+		.left_channel_audio_out		(left_channel_audio_out),
+		.right_channel_audio_out	(right_channel_audio_out),
+		.write_audio_out			(write_audio_out),
+
+		.AUD_ADCDAT					(AUD_ADCDAT),
+
+		// Bidirectionals
+		.AUD_BCLK					(AUD_BCLK),
+		.AUD_ADCLRCK				(AUD_ADCLRCK),
+		.AUD_DACLRCK				(AUD_DACLRCK),
+
+
+		// Outputs
+		.audio_in_available			(audio_in_available),
+		.left_channel_audio_in		(left_channel_audio_in),
+		.right_channel_audio_in		(right_channel_audio_in),
+
+		.audio_out_allowed			(audio_out_allowed),
+
+		.AUD_XCK					(AUD_XCK),
+		.AUD_DACDAT					(AUD_DACDAT)
+
+	);
+
+	avconf #(.USE_MIC_INPUT(1)) avc (
+		.FPGA_I2C_SCLK					(FPGA_I2C_SCLK),
+		.FPGA_I2C_SDAT					(FPGA_I2C_SDAT),
+		.CLOCK_50					(CLOCK_50),
+		.reset						(~KEY[0])
+	);
+
+	
 	
 //	characterCounter u0(.resetn(resetn), .clk(enable), .x_coordinate(x_c), .y_coordinate(y_c), .address(address), .done(WriteEn));
 //	snoopyCharacter u1(.address(address), .clock(enable), .data(3'b000), .wren(1'b0), .q(colour));
@@ -86,15 +240,22 @@ module snoopy
 
 		RateDivider #(.CLOCK_FREQUENCY(CLOCK_FREQUENCY)) RDInst ( .ClockIn(CLOCK_50), .Reset(resetn), .Enable(enable) );
 
-		snoopyHorizintalFSM fsm1( .clock(enable), .reset(resetn), .input_left(~KEY[2]), .input_right(~KEY[1]), .snoopy_x(xTemp) );
-		// on_ground fsm2 ( .snoopy_y(yTemp), .on_ground(ifGround) );
+		snoopyHorizontalFSM fsm1( .clock(enable), .reset(resetn), .input_left(i_l), .input_right(i_r), .snoopy_x(xTemp) );
 		
-		// snoopyVerticalFSM fsm3 ( .clock(enable), .reset(resetn), .on_ground(ifGround), .input_jump(~KEY[2]), .snoopy_y(yTemp) );
+		snoopyVerticalFSM fsm3 ( .clock(enable), .reset(resetn), .input_jump(i_u), .snoopy_y(yTemp) );
 		
-		VGAmodule vgaplay( .iResetn(resetn),.iColour(3'b110),.iX(xTemp),.iY(7'd100),.iLoadX(~KEY[3]),.iClock(CLOCK_50),.oX(x),.oY(y),.oColour(colour),.oPlot(writeEn),.oDone(Done) );
+		VGAmodule vgaplay( .iResetn(resetn),.iColour(colTemp),.iX(xTemp),.iY(yTemp),.iLoadX(SW[0]),.iClock(CLOCK_50),.oX(x),.oY(y),.oColour(colour),.oPlot(writeEn),.oDone(Done) );
 		
+		gameFSM fsm4(.reset(resetn), .clock(CLOCK_50), .collided(1'b0), .reached_screen_end(is_end), .user_input(isInput), .col(colTemp));
+		
+		collision_end colInst(.x_coord(xTemp), .y_coord(yTemp), .colour(q_out), .clock(CLOCK_50), .resetn(resetn), .collided(is_collided), .reached_screen_end(is_end));
+		
+		vga_address_translator Translator(.x(xTemp + 8'd4), .y(yTemp + 7'd2), .mem_address(addTemp));
+		
+		stagebg mem(.address(addTemp), .clock(CLOCK_50), .q(q_out));
+		
+		PS2_Demo keyboard(CLOCK_50, KEY, PS2_CLK, PS2_DAT, HEX0, HEX1, LEDR, input_right, input_left, input_up);
 // 	snoopyCharacter2 v1 (.address(address), .clock(CLOCK_50), .q(colour) );
-
 endmodule
 
 
@@ -157,12 +318,12 @@ output reg Enable
         if (!Reset)
             begin
                 Enable = 1'b0; //start with enable = 1 or 0??
-                down_count <= 1000000;
+                down_count <= 2500000;
             end
 		  else if (down_count == 27'd0)
 				begin
 					Enable = 1'b1;
-					down_count <= 1000000;
+					down_count <= 2500000;
 				end
         else
             begin
