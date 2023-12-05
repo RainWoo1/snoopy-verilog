@@ -17,14 +17,6 @@ module PS2_Demo (
 	 o_u
 );
 
-/*****************************************************************************
- *                           Parameter Declarations                          *
- *****************************************************************************/
-
-
-/*****************************************************************************
- *                             Port Declarations                             *
- *****************************************************************************/
 
 // Inputs
 input			CLOCK_50;
@@ -149,24 +141,16 @@ PS2_Controller PS2 (
 	.received_data_en	(ps2_key_pressed)
 );
 
-Hexadecimal_To_Seven_Segment Segment0 (
-	// Inputs
-	.hex_number			(last_data_received[3:0]),
+// Hexadecimal_To_Seven_Segment Segment0 (
 
-	// Bidirectional
+// 	.hex_number(last_data_received[3:0]),
 
-	// Outputs
-	.seven_seg_display	(HEX0)
-);
+// 	.seven_seg_display(HEX0)
+// );
 
-Hexadecimal_To_Seven_Segment Segment1 (
-	// Inputs
-	.hex_number			(last_data_received[7:4]),
-
-	// Bidirectional
-
-	// Outputs
-	.seven_seg_display	(HEX1)
-);
+// Hexadecimal_To_Seven_Segment Segment1 (
+// 	.hex_number			(last_data_received[7:4]),
+// 	.seven_seg_display	(HEX1)
+// );
 
 endmodule
