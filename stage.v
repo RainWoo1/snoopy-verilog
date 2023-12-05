@@ -70,6 +70,7 @@ inout				PS2_DAT;
 	wire input_right, input_left, input_up;
 	wire isInput = i_r || i_l || i_u;
 	wire is_collided, is_end, q_out;
+	wire [3:0] score;
 	
 reg i_r, i_l, i_u;
 
@@ -229,7 +230,7 @@ end
 
 		RateDivider #(.CLOCK_FREQUENCY(CLOCK_FREQUENCY)) RDInst ( .ClockIn(CLOCK_50), .Reset(resetn), .Enable(enable) );
 
-		snoopyHorizontalFSM fsm1( .clock(enable), .reset(resetn), .input_left(i_l), .input_right(i_r), .snoopy_x(xTemp) );
+		snoopyHorizontalFSM fsm1( .clock(enable), .reset(resetn), .input_left(i_l), .input_right(i_r), .snoopy_x(xTemp), .score(score));
 		
 		snoopyVerticalFSM fsm3 ( .clock(enable), .reset(resetn), .input_jump(i_u), .snoopy_y(yTemp) );
 		
@@ -244,6 +245,8 @@ end
 		stagebg mem(.address(addTemp), .clock(CLOCK_50), .q(q_out));
 		
 		PS2_Demo keyboard(CLOCK_50, KEY, PS2_CLK, PS2_DAT, HEX0, HEX1, LEDR, input_right, input_left, input_up);
+
+		Hexadecimal_To_Seven_Segment Segment0 ( .hex_number(score), .seven_seg_display(HEX0));
 // 	snoopyCharacter2 v1 (.address(address), .clock(CLOCK_50), .q(colour) );
 endmodule
 
